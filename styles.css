@@ -1,0 +1,222 @@
+.ag-theme-alpine {
+  --ag-foreground-color: rgb(0, 50, 73);
+  --ag-background-color: rgb(255, 255, 255);
+  --ag-header-foreground-color: rgb(255, 255, 255);
+  --ag-header-background-color: rgb(0, 50, 73);
+  --ag-odd-row-background-color: rgba(0, 0, 0, 0.03);
+  --ag-header-column-resize-handle-color: rgb(0, 50, 73);
+  --ag-header-cell-hover-background-color: rgb(0, 42, 54);
+  --ag-row-hover-color: rgba(101, 187, 169, 0.1);
+  --ag-font-size: 12px;
+  --ag-secondary-foreground-color: rgb(101, 187, 169);
+  --ag-control-panel-background-color: rgb(255, 255, 255);
+  --ag-header-cell-moving-background-color: rgb(63, 66, 66);
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
+}
+
+/* Grid container with fixed height */
+#ag-grid {
+  width: 100%;          /* Full width */
+  height: 800px;        /* Fixed height */
+  overflow-y: auto;     /* Enable vertical scrolling */
+  overflow-x: auto;     /* Enable horizontal scrolling if needed */
+  position: relative;
+}
+
+/* Sticky status bar */
+.ag-theme-alpine .ag-status-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background-color: #fff; /* Match background */
+}
+.ag-header-cell-label,
+.ag-cell {
+    font-family: 'Lato', Helvetica, Arial, sans-serif;
+}
+
+.ag-header-cell-label,
+.ag-header-group-text {
+  font-weight: normal; 
+  font-size: 12px; 
+  white-space: normal !important;
+}
+
+.ag-root-wrapper{
+  margin-left:20px;
+  margin-right:20px;
+}
+
+.ag-root-wrapper-body {
+  min-height: 400px;
+}
+
+.ag-cell {
+  font-size: 12px;
+}
+
+
+
+.ag-filter-toolpanel-group-title {
+  color: #00354b; 
+}
+
+.ag-theme-alpine .ag-filter-toolpanel-header {
+  color: #65BBA9;
+}
+
+.ag-theme-alpine .ag-status-bar {
+  color: #00354b;
+}
+
+.ag-label-ellipsis {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: initial !important;
+}
+
+#searchContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-left:20px;
+  margin-right:20px;
+}
+
+#searchInput {
+  flex: 1;
+  font-family: Lato, Helvetica, Arial, sans-serif;
+  padding: 8px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+#searchInput:focus {
+  outline: none;
+  border: 1px solid #00354b;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px; /* Add spacing between buttons */
+}
+
+#deselectAllButton, #exportSelectedButton, #selectAllButton, #clearFiltersButton {
+  font-family: Lato, Helvetica, Arial, sans-serif;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, height 0.2s ease-in-out;
+}
+
+#selectAllButton {
+  background-color: #00354b;
+}
+
+#deselectAllButton {
+  background-color: #599db2;
+}
+
+#exportSelectedButton {
+  background-color: #65BBA9;
+}
+
+#clearFiltersButton {
+  background-color: #53a5a1;
+}
+
+#deselectAllButton:hover, #exportSelectedButton:hover, #selectAllButton:hover, #clearFiltersButton:hover {
+  background-color: #002a36;
+}
+
+#deselectAllButton.show, #exportSelectedButton.show, #selectAllButton.show, #clearFiltersButton.show {
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+}
+
+.ag-filter-body {
+  width: auto !important;
+}
+
+.ag-theme-alpine .ag-menu {
+  width: 400px;
+}
+
+/* Styles for the AG Grid container */
+#ag-grid-container {
+  padding: 0 20px; /* Add padding to the left and right */
+}
+
+/* Styles for smaller screens (Mobile) */
+@media (max-width: 768px) {
+  #searchContainer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  #searchInput {
+    margin: 0 0 10px 0;
+    width: 100%;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  #deselectAllButton, 
+  #exportSelectedButton, 
+  #selectAllButton, 
+  #clearFiltersButton {
+    flex: 1 0 48%;
+    margin: 5px 1%;
+    padding: 10px 0;
+    text-align: center;
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+  }
+
+  .ag-theme-alpine .ag-side-bar .ag-tool-panel-wrapper {
+    max-width: 300px !important;
+  }
+}
+
+/* Styles for disabled buttons */
+button.disabled {
+  background-color: #ccc!important;
+  color: #666!important;
+  cursor: not-allowed!important;
+}
+
+/* Ensure disabled buttons don't change appearance on hover */
+button.disabled:hover {
+  background-color: #ccc!important;
+}
+
+.ag-side-button-label{
+  transform: rotate(180deg);
+}
+
+.ag-paging-panel>* {
+  color:#00354b;
+}
+
+.datasheet-note {
+  font-size: 14px;
+  color: #00354b;
+  margin-top: 10px;
+  margin-left:20px;
+  font-family: Lato, Helvetica, Arial, sans-serif;
+  font-style: italic;
+}
