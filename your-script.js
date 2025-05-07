@@ -40,7 +40,7 @@ function motionValueFormatter(params) {
 function getUniqueMotionValues(params) {
     setTimeout(function() {
         const uniqueValues = new Set();
-        params.api.forEachNode((node) => {
+        params.api.forEachNodeAfterFilter((node) => {
             const motionValues = motionValueGetter({ data: node.data });
             motionValues.forEach(value => uniqueValues.add(value));
         });
@@ -64,7 +64,7 @@ function processingValueFormatter(params) {
 function getUniqueProcessingValues(params) {
     setTimeout(function() {
         const uniqueValues = new Set();
-        params.api.forEachNode((node) => {
+        params.api.forEachNodeAfterFilter((node) => {
             const processingValues = processingValueGetter({ data: node.data });
             processingValues.forEach(value => uniqueValues.add(value));
         });
@@ -88,7 +88,7 @@ function outputValueFormatter(params) {
 function getUniqueOutputValues(params) {
     setTimeout(function() {
         const uniqueValues = new Set();
-        params.api.forEachNode((node) => {
+        params.api.forEachNodeAfterFilter((node) => {
             const outputValues = outputValueGetter({ data: node.data });
             outputValues.forEach(value => uniqueValues.add(value));
         });
@@ -112,7 +112,7 @@ function extraValueFormatter(params) {
 function getUniqueExtraValues(params) {
     setTimeout(function() {
         const uniqueValues = new Set();
-        params.api.forEachNode((node) => {
+        params.api.forEachNodeAfterFilter((node) => {
             const extraValues = extraValueGetter({ data: node.data });
             extraValues.forEach(value => uniqueValues.add(value));
         });
@@ -161,7 +161,7 @@ function supplyVoltageValueFormatter(params) {
 function getUniqueSupplyVoltageValues(params) {
     setTimeout(function() {
         const uniqueValues = new Set();
-        params.api.forEachNode((node) => {
+        params.api.forEachNodeAfterFilter((node) => {
             const supplyVoltageValues = supplyVoltageValueGetter({ data: node.data });
             supplyVoltageValues.forEach(value => uniqueValues.add(value));
         });
@@ -298,10 +298,17 @@ getContextMenuItems: function(params) {
             filterParams: {
                 filters: [
                     { filter: 'agTextColumnFilter' },
-                    { filter: 'agSetColumnFilter' }
+                    { 
+                        filter: 'agSetColumnFilter',
+                        filterParams: {
+                            suppressSyncValues: false,
+                            refreshValuesOnOpen: true
+                        }
+                    }
                 ]
             }
         },
+        
         {
             headerName: 'Status',
             field: 'Status',
@@ -312,10 +319,17 @@ getContextMenuItems: function(params) {
             filterParams: {
                 filters: [
                     { filter: 'agTextColumnFilter' },
-                    { filter: 'agSetColumnFilter' }
+                    { 
+                        filter: 'agSetColumnFilter',
+                        filterParams: {
+                            suppressSyncValues: false,
+                            refreshValuesOnOpen: true
+                        }
+                    }
                 ]
             }
         },
+        
         {
             headerName: 'Part number',
             field: 'Part number',
@@ -326,7 +340,14 @@ getContextMenuItems: function(params) {
             filterParams: {
                 filters: [
                     { filter: 'agTextColumnFilter' },
-                    { filter: 'agSetColumnFilter' }
+                    {
+                        filter: 'agSetColumnFilter',
+                        filterParams: {
+                            suppressSyncValues: false,
+                            refreshValuesOnOpen: true
+
+                        }
+                    }
                 ]
             },
             cellRenderer: function(params) {
@@ -338,6 +359,7 @@ getContextMenuItems: function(params) {
                 }
             }
         },
+        
         {
             headerName: 'Datasheet',
             field: 'Datasheet',
@@ -353,95 +375,107 @@ getContextMenuItems: function(params) {
                 }
             }
     }, 
-        {
-            headerName: 'Temperature [°C]',
-            field: 'Temperature',
-            unSortIcon: true,
-            headerTooltip: 'Temperature [°C]',
-            comparator: (valueA, valueB) => {
-                if (valueA == null && valueB == null) return 0;
-                if (valueA == null) return -1;
-                if (valueB == null) return 1;
-        
-                const numA = parseFloat(valueA);
-                const numB = parseFloat(valueB);
-        
-                if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
-                if (!isNaN(numA)) return -1;
-                if (!isNaN(numB)) return 1;
-        
-                if (valueA < valueB) return -1;
-                if (valueA > valueB) return 1;
-                return 0;
-            },
-            filter: 'agMultiColumnFilter',
-            filterParams: {
-                filters: [
-                    {
-                        filter: 'agNumberColumnFilter',
-                        filterParams: {
-                            filterOptions: ['greaterThan', 'lessThanOrEqual', 'inRange'],
-                        }
-                    },
-                    {
-                        filter: 'agSetColumnFilter',
-                    }
-                ]
-            }
+    {
+        headerName: 'Temperature [°C]',
+        field: 'Temperature',
+        unSortIcon: true,
+        headerTooltip: 'Temperature [°C]',
+        comparator: (valueA, valueB) => {
+            if (valueA == null && valueB == null) return 0;
+            if (valueA == null) return -1;
+            if (valueB == null) return 1;
+    
+            const numA = parseFloat(valueA);
+            const numB = parseFloat(valueB);
+    
+            if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
+            if (!isNaN(numA)) return -1;
+            if (!isNaN(numB)) return 1;
+    
+            if (valueA < valueB) return -1;
+            if (valueA > valueB) return 1;
+            return 0;
         },
+        filter: 'agMultiColumnFilter',
+        filterParams: {
+            filters: [
+                {
+                    filter: 'agNumberColumnFilter',
+                    filterParams: {
+                        filterOptions: ['greaterThan', 'lessThanOrEqual', 'inRange'],
+                    }
+                },
+                {
+                    filter: 'agSetColumnFilter',
+                    filterParams: {
+                        suppressSyncValues: false,
+                        refreshValuesOnOpen: true
+                    }
+                }
+            ]
+        }
+    },
+    
       
-        {
-            headerName: 'Supply current [mA]',
-            field: 'Supply current',
-            unSortIcon: true,
-            headerTooltip: 'Supply current [mA]',
-            tooltipField: 'Supply current hover',
-            comparator: (valueA, valueB) => {
-                if (valueA == null && valueB == null) return 0;
-                if (valueA == null) return -1;
-                if (valueB == null) return 1;
-        
-                const numA = parseFloat(valueA);
-                const numB = parseFloat(valueB);
-        
-                if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
-                if (!isNaN(numA)) return -1;
-                if (!isNaN(numB)) return 1;
-        
-                if (valueA < valueB) return -1;
-                if (valueA > valueB) return 1;
-                return 0;
-            },
-            filter: 'agMultiColumnFilter',
-            filterParams: {
-                filters: [
-                    {
-                        filter: 'agNumberColumnFilter',
-                        filterParams: {
-                            filterOptions: ['greaterThan', 'lessThanOrEqual', 'inRange'],
-                        }
-                    },
-                    {
-                        filter: 'agSetColumnFilter',
+    {
+        headerName: 'Supply current [mA]',
+        field: 'Supply current',
+        unSortIcon: true,
+        headerTooltip: 'Supply current [mA]',
+        tooltipField: 'Supply current hover',
+        comparator: (valueA, valueB) => {
+            if (valueA == null && valueB == null) return 0;
+            if (valueA == null) return -1;
+            if (valueB == null) return 1;
+    
+            const numA = parseFloat(valueA);
+            const numB = parseFloat(valueB);
+    
+            if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
+            if (!isNaN(numA)) return -1;
+            if (!isNaN(numB)) return 1;
+    
+            if (valueA < valueB) return -1;
+            if (valueA > valueB) return 1;
+            return 0;
+        },
+        filter: 'agMultiColumnFilter',
+        filterParams: {
+            filters: [
+                {
+                    filter: 'agNumberColumnFilter',
+                    filterParams: {
+                        filterOptions: ['greaterThan', 'lessThanOrEqual', 'inRange'],
                     }
-                ]
-            }
-        },
+                },
+                {
+                    filter: 'agSetColumnFilter',
+                    filterParams: {
+                        suppressSyncValues: false,
+                        refreshValuesOnOpen: true
+                    }
+                }
+            ]
+        }
+    },
+    
 
-        {
-            headerName: 'Supply voltage [V]',
-            field: 'Supply voltage',
-            unSortIcon: true,
-            headerTooltip: 'Supply voltage [V]',
-            tooltipField: 'Supply voltage hover',
-            filter: 'agSetColumnFilter',
-            valueGetter: supplyVoltageValueGetter,
-            filterParams: {
-                values: getUniqueSupplyVoltageValues,
-                suppressSyncValues: true,
-            },
-            valueFormatter: supplyVoltageValueFormatter,
+    {
+        headerName: 'Supply voltage [V]',
+        field: 'Supply voltage',
+        unSortIcon: true,
+        headerTooltip: 'Supply voltage [V]',
+        tooltipField: 'Supply voltage hover',
+        filter: 'agSetColumnFilter',
+        valueGetter: supplyVoltageValueGetter,
+        filterParams: {
+            values: getUniqueSupplyVoltageValues,
+            suppressSyncValues: false,
+            refreshValuesOnOpen: true
         },
+        valueFormatter: supplyVoltageValueFormatter,
+    },
+    
         
         {
             headerName: 'Technology',
@@ -452,7 +486,8 @@ getContextMenuItems: function(params) {
             filterParams: {
                 values: ['Hall', 'Inductive'],  // Ensure both values appear in the filter
                 applyMiniFilterWhileTyping: true, // Enables live searching inside the filter
-                suppressSyncValues: false, // Ensures all values are always available
+                suppressSyncValues: false,
+                refreshValuesOnOpen: true
             }
         },        
 
@@ -465,13 +500,14 @@ getContextMenuItems: function(params) {
             valueGetter: motionValueGetter,
             filterParams: {
                 values: getUniqueMotionValues,
-                suppressSyncValues: true,
+                suppressSyncValues: false,
+                refreshValuesOnOpen: true
             },
             valueFormatter: motionValueFormatter,
         },
         
+        
             
-
         {
             headerName: 'Processing',
             field: 'Processing',
@@ -481,10 +517,12 @@ getContextMenuItems: function(params) {
             valueGetter: processingValueGetter,
             filterParams: {
                 values: getUniqueProcessingValues,
-                suppressSyncValues: true,
+                suppressSyncValues: false,
+                refreshValuesOnOpen: true
             },
             valueFormatter: processingValueFormatter,
         },
+        
         
 
         {
@@ -497,10 +535,12 @@ getContextMenuItems: function(params) {
             valueGetter: sensitiveAxisValueGetter,
             filterParams: {
                 values: getUniqueSensitiveAxisValues,
-                suppressSyncValues: true,
+                suppressSyncValues: false,
+                refreshValuesOnOpen: true
             },
             valueFormatter: sensitiveAxisValueFormatter,
-        },        
+        },
+             
 
         {
             headerName: 'Stray field',
@@ -511,10 +551,17 @@ getContextMenuItems: function(params) {
             filterParams: {
                 filters: [
                     { filter: 'agTextColumnFilter' },
-                    { filter: 'agSetColumnFilter' }
+                    {
+                        filter: 'agSetColumnFilter',
+                        filterParams: {
+                            suppressSyncValues: false,
+                            refreshValuesOnOpen: true
+                        }
+                    }
                 ]
             }
         },
+        
 
         {
             headerName: 'Package',
@@ -525,25 +572,39 @@ getContextMenuItems: function(params) {
             filterParams: {
                 filters: [
                     { filter: 'agTextColumnFilter' },
-                    { filter: 'agSetColumnFilter' }
+                    {
+                        filter: 'agSetColumnFilter',
+                        filterParams: {
+                            suppressSyncValues: false,
+                            refreshValuesOnOpen: true
+                        }
+                    }
                 ]
             }
         },
+        
 
         {
             headerName: 'Trim&form',
             field: 'Trim&form',
             unSortIcon: true,
             headerTooltip: 'Trim&form',
-            hide: true, 
+            hide: true,
             filter: 'agMultiColumnFilter',
             filterParams: {
                 filters: [
                     { filter: 'agTextColumnFilter' },
-                    { filter: 'agSetColumnFilter' }
+                    {
+                        filter: 'agSetColumnFilter',
+                        filterParams: {
+                            suppressSyncValues: false,
+                            refreshValuesOnOpen: true
+                        }
+                    }
                 ]
             }
         },
+        
 
         {
             headerName: 'Output',
@@ -555,11 +616,13 @@ getContextMenuItems: function(params) {
             valueGetter: outputValueGetter,
             filterParams: {
                 values: getUniqueOutputValues,
-                suppressSyncValues: true,
-            },
+                suppressSyncValues: false,
+                refreshValuesOnOpen: true
+                },
             valueFormatter: outputValueFormatter,
             tooltipField: 'Output hover',
         },
+        
 
         {
             headerName: 'Input range',
@@ -594,17 +657,22 @@ getContextMenuItems: function(params) {
                     },
                     {
                         filter: 'agSetColumnFilter',
+                        filterParams: {
+                            suppressSyncValues: false,
+                            refreshValuesOnOpen: true
+                        }
                     }
                 ]
             }
         },
+        
 
         {
             headerName: 'Magnet TC [ppm/degC]',
             field: 'Magnet TC',
             unSortIcon: true,
             headerTooltip: 'Magnet TC [ppm/degC]',
-            hide: true, 
+            hide: true,
             minWidth: 210,
             comparator: (valueA, valueB) => {
                 if (valueA == null && valueB == null) return 0;
@@ -633,11 +701,15 @@ getContextMenuItems: function(params) {
                     },
                     {
                         filter: 'agSetColumnFilter',
+                        filterParams: {
+                            suppressSyncValues: false,
+                            refreshValuesOnOpen: true
+                        }
                     }
                 ]
             }
         },
-
+        
         {
             headerName: 'AEC-Q100',
             field: 'AEC-Q100',
@@ -647,10 +719,17 @@ getContextMenuItems: function(params) {
             filterParams: {
                 filters: [
                     { filter: 'agTextColumnFilter' },
-                    { filter: 'agSetColumnFilter' }
+                    {
+                        filter: 'agSetColumnFilter',
+                        filterParams: {
+                            suppressSyncValues: false,
+                            refreshValuesOnOpen: true
+                        }
+                    }
                 ]
             }
         },
+        
 
         {
             headerName: 'ASIL',
@@ -661,11 +740,17 @@ getContextMenuItems: function(params) {
             filterParams: {
                 filters: [
                     { filter: 'agTextColumnFilter' },
-                    { filter: 'agSetColumnFilter' }
+                    {
+                        filter: 'agSetColumnFilter',
+                        filterParams: {
+                            suppressSyncValues: false,
+                            refreshValuesOnOpen: true
+                        }
+                    }
                 ]
             }
         },
-
+        
 
         {
             headerName: 'Extra',
@@ -676,11 +761,13 @@ getContextMenuItems: function(params) {
             valueGetter: extraValueGetter,
             filterParams: {
                 values: getUniqueExtraValues,
-                suppressSyncValues: true,
+                suppressSyncValues: false,
+                refreshValuesOnOpen: true
             },
             valueFormatter: extraValueFormatter,
             tooltipField: 'Extra hover',
         },
+        
          
         
         {
