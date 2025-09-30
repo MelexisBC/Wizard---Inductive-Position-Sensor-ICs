@@ -56,7 +56,6 @@
 }
 
 
-
 .ag-filter-toolpanel-group-title {
   color: #00354b; 
 }
@@ -219,4 +218,14 @@ button.disabled:hover {
   margin-left:20px;
   font-family: Lato, Helvetica, Arial, sans-serif;
   font-style: italic;
+}
+
+/* Show copy icon on row hover */
+.ag-theme-alpine .ag-row:hover .copy-icon {
+    opacity: 1 !important;
+}
+
+/* Ensure smooth transition */
+.copy-icon {
+    transition: opacity 0.2s ease !important;
 }
