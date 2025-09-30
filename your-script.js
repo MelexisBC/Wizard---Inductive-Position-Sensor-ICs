@@ -757,6 +757,7 @@ getContextMenuItems: function(params) {
         {
             headerName: 'Extra',
             field: 'Extra',
+            minWidth: 425,
             unSortIcon: true,
             headerTooltip: 'Extra',
             filter: 'agSetColumnFilter',
