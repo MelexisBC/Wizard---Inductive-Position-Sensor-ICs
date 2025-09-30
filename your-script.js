@@ -331,34 +331,37 @@ getContextMenuItems: function(params) {
         },
         
         {
-            headerName: 'Part number',
-            field: 'Part number',
-            unSortIcon: true,
-            headerTooltip: 'Part number',
-            minWidth: 210,
-            filter: 'agMultiColumnFilter',
-            filterParams: {
-                filters: [
-                    { filter: 'agTextColumnFilter' },
-                    {
-                        filter: 'agSetColumnFilter',
-                        filterParams: {
-                            suppressSyncValues: false,
-                            refreshValuesOnOpen: true
-
-                        }
-                    }
-                ]
-            },
-            cellRenderer: function(params) {
-                var productPageUrl = params.data['Product page'];
-                if (productPageUrl) {
-                    return '<a href="' + productPageUrl + '" target="_blank" style="color: inherit; text-decoration: underline;">' + params.value + '</a>';
-                } else {
-                    return params.value;
-                }
-            }
-        },
+    headerName: 'Part number',
+    field: 'Part number',
+    unSortIcon: true,
+    headerTooltip: 'Part number',
+    minWidth: 200,
+    filter: 'agMultiColumnFilter',
+    filterParams: {
+        filters: [
+            { filter: 'agTextColumnFilter' },
+            { filter: 'agSetColumnFilter', filterParams: { suppressSyncValues: false, refreshValuesOnOpen: true } }
+        ]
+    },     
+    cellRenderer: function(params) {
+        // Check if there is a URL in the 'Product page' field for the current row
+        var productPageUrl = params.data['Product page'];
+        var partNumber = params.value;
+        
+        var html = '';
+        
+        if (productPageUrl) {
+            html += '<a href="' + productPageUrl + '" target="_blank" style="color: inherit; text-decoration: underline; margin-right: 8px;">' + partNumber + '</a>';
+        } else {
+            html += '<span style="margin-right: 8px;">' + partNumber + '</span>'; // Just display the part number if no URL
+        }
+        
+        // Add copy icon with hover-only visibility
+        html += '<i class="fa fa-copy copy-icon" style="cursor: pointer; color: #00354b; font-size: 12px; opacity: 0; transition: opacity 0.2s ease;" title="Copy part number" onclick="copyToClipboard(\'' + partNumber + '\')"></i>';
+        
+        return html;
+    }
+},
         
         {
             headerName: 'Datasheet',
@@ -1134,4 +1137,22 @@ function autoSizeAllColumns() {
     });
     gridOptions.columnApi.autoSizeColumns(allColumnIds);
     gridOptions.api.sizeColumnsToFit(); // Ensure columns fill the full width of the grid
+}
+
+// Function to copy text to clipboard
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        // Optional: Show a brief success message
+        console.log('Part number copied to clipboard: ' + text);
+        // You could add a toast notification here if desired
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+        // Fallback for older browsers
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+    });
 }
