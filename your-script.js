@@ -481,6 +481,7 @@ getContextMenuItems: function(params) {
             headerName: 'Technology',
             field: 'Technology',
             unSortIcon: true,
+            hide: true,
             headerTooltip: 'Technology',
             filter: 'agSetColumnFilter',
             filterParams: {
@@ -528,6 +529,7 @@ getContextMenuItems: function(params) {
         {
             headerName: 'Sensitive Axis',
             field: 'Sensitive axis',
+            hide: true,
             unSortIcon: true,
             headerTooltip: 'Sensitive Axis',
             tooltipField: 'Sensitive axis hover',
