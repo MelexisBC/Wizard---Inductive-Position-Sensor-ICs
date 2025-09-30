@@ -293,6 +293,7 @@ getContextMenuItems: function(params) {
             headerName: 'Family',
             field: 'Family',
             unSortIcon: true,
+            maxWidth: 120,
             headerTooltip: 'Family',
             filter: 'agMultiColumnFilter',
             filterParams: {
@@ -382,6 +383,7 @@ getContextMenuItems: function(params) {
         headerName: 'Temperature [°C]',
         field: 'Temperature',
         unSortIcon: true,
+        maxWidth: 175,
         headerTooltip: 'Temperature [°C]',
         comparator: (valueA, valueB) => {
             if (valueA == null && valueB == null) return 0;
@@ -516,6 +518,7 @@ getContextMenuItems: function(params) {
             headerName: 'Processing',
             field: 'Processing',
             unSortIcon: true,
+            maxWidth: 140,
             headerTooltip: 'Processing',
             filter: 'agSetColumnFilter',
             valueGetter: processingValueGetter,
@@ -551,6 +554,7 @@ getContextMenuItems: function(params) {
             headerName: 'Stray field',
             field: 'Stray field',
             unSortIcon: true,
+            maxWidth: 130,
             headerTooltip: 'Stray field',
             filter: 'agMultiColumnFilter',
             filterParams: {
@@ -571,6 +575,7 @@ getContextMenuItems: function(params) {
         {
             headerName: 'Package',
             field: 'Package',
+            maxWidth: 120,
             unSortIcon: true,
             headerTooltip: 'Package',
             filter: 'agMultiColumnFilter',
@@ -616,7 +621,7 @@ getContextMenuItems: function(params) {
             field: 'Output',
             unSortIcon: true,
             headerTooltip: 'Output',
-            minWidth: 315,
+            minWidth: 180,
             filter: 'agSetColumnFilter',
             valueGetter: outputValueGetter,
             filterParams: {
@@ -719,6 +724,7 @@ getContextMenuItems: function(params) {
             headerName: 'AEC-Q100',
             field: 'AEC-Q100',
             unSortIcon: true,
+            maxWidth: 140,
             headerTooltip: 'AEC-Q100',
             filter: 'agMultiColumnFilter',
             filterParams: {
@@ -740,6 +746,7 @@ getContextMenuItems: function(params) {
             headerName: 'ASIL',
             field: 'ASIL',
             unSortIcon: true,
+            maxWidth: 110,
             headerTooltip: 'ASIL',
             filter: 'agMultiColumnFilter',
             filterParams: {
@@ -760,7 +767,7 @@ getContextMenuItems: function(params) {
         {
             headerName: 'Extra',
             field: 'Extra',
-            minWidth: 425,
+            minWidth: 435,
             unSortIcon: true,
             headerTooltip: 'Extra',
             filter: 'agSetColumnFilter',
